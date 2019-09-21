@@ -188,3 +188,141 @@ However, out of range slice indexes are handled gracefully when used for slicing
 'on'
 >>> word[42:]
 ''
+
+Python strings cannot be changed — they are immutable. Therefore, assigning to an indexed position in the string results in an error:
+>>> word[0] = 'J'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' object does not support item assignment
+>>> word[2:] = 'py'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' object does not support item assignment
+
+
+
+If you need a different string, you should create a new one:
+
+>>> 'J' + word[1:]
+'Jython'
+>>> word[:2] + 'py'
+'Pypy'
+
+
+The built-in function len() returns the length of a string:
+>>> s = 'supercalifragilisticexpialidocious'
+>>> len(s)
+34
+
+List
+
+Python knows a number of compound data types, used to group together other values. The most versatile is the list, which can be written as a list of comma-separated values (items) between square brackets. Lists might contain items of different types, but usually the items all have the same type.
+>>> squares = [1, 4, 9, 16, 25]
+>>> squares
+>>> [1, 4, 9, 16, 25]
+
+Like strings (and all other built-in sequence types), lists can be indexed and sliced:
+>>> squares[0]  # indexing returns the item
+1
+>>> squares[-1]
+25
+>>> squares[-3:]  # slicing returns a new list
+[9, 16, 25]
+All slice operations return a new list containing the requested elements. This means that the following slice returns a new (shallow) copy of the list:
+>>> squares[:]
+[1, 4, 9, 16, 25]
+
+
+Lists also support operations like concatenation:
+>>> squares + [36, 49, 64, 81, 100]
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+
+Unlike strings, which are immutable, lists are a mutable type, i.e. it is possible to change their content:
+
+>>> cubes = [1, 8, 27, 65, 125]  # something's wrong here
+>>> 4 ** 3  # the cube of 4 is 64, not 65!
+64
+>>> cubes[3] = 64  # replace the wrong value
+>>> cubes
+[1, 8, 27, 64, 125]
+
+You can also add new items at the end of the list, by using the append() method 
+>>> cubes.append(216)  # add the cube of 6
+>>> cubes.append(7 ** 3)  # and the cube of 7
+>>> cubes
+[1, 8, 27, 64, 125, 216, 343]
+
+Assignment to slices is also possible, and this can even change the size of the list or clear it entirely:
+>>> letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+>>> letters
+['a', 'b', 'c', 'd', 'e', 'f', 'g']
+>>> # replace some values
+>>> letters[2:5] = ['C', 'D', 'E']
+>>> letters
+['a', 'b', 'C', 'D', 'E', 'f', 'g']
+>>> # now remove them
+>>> letters[2:5] = []
+>>> letters
+['a', 'b', 'f', 'g']
+>>> # clear the list by replacing all the elements with an empty list
+>>> letters[:] = []
+>>> letters
+[]
+
+
+The built-in function len() also applies to lists
+
+
+It is possible to nest lists 
+
+>>> a = ['a', 'b', 'c']
+>>> n = [1, 2, 3]
+>>> x = [a, n]
+>>> x
+[['a', 'b', 'c'], [1, 2, 3]]
+>>> x[0]
+['a', 'b', 'c']
+>>> x[0][1]
+'b'
+
+
+
+>>> # Fibonacci series:
+... # the sum of two elements defines the next
+... a, b = 0, 1
+>>> while a < 10:
+...     print(a)
+...     a, b = b, a+b
+...
+0
+1
+1
+2
+3
+5
+8
+
+
+The first line contains a multiple assignment: the variables a and b simultaneously get the new values 0 and 1. On the last line this is used again, demonstrating that the expressions on the right-hand side are all evaluated first before any of the assignments take place. The right-hand side expressions are evaluated from the left to the right.
+
+The while loop executes as long as the condition (here: a < 10) remains true. In Python, like in C, any non-zero integer value is true; zero is false. The condition may also be a string or list value, in fact any sequence; anything with a non-zero length is true, empty sequences are false. The test used in the example is a simple comparison. The standard comparison operators are written the same as in C: < (less than), > (greater than), == (equal to), <= (less than or equal to), >= (greater than or equal to) and != (not equal to).
+
+The body of the loop is indented: indentation is Python’s way of grouping statements. At the interactive prompt, you have to type a tab or space(s) for each indented line. In practice you will prepare more complicated input for Python with a text editor; all decent text editors have an auto-indent facility. When a compound statement is entered interactively, it must be followed by a blank line to indicate completion (since the parser cannot guess when you have typed the last line). Note that each line within a basic block must be indented by the same amount.
+
+The print() function writes the value of the argument(s) it is given. It differs from just writing the expression you want to write (as we did earlier in the calculator examples) in the way it handles multiple arguments, floating point quantities, and strings. Strings are printed without quotes, and a space is inserted between items, so you can format things nicely, like this:
+>>> i = 256*256
+>>> print('The value of i is', i)
+The value of i is 65536
+
+
+The keyword argument end can be used to avoid the newline after the output, or end the output with a different string:
+>>> a, b = 0, 1
+>>> while a < 1000:
+...     print(a, end=',')
+...     a, b = b, a+b
+...
+0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,
+
+Since ** has higher precedence than -, -3**2 will be interpreted as -(3**2) and thus result in -9. To avoid this and get 9, you can use (-3)**2.
+Unlike other languages, special characters such as \n have the same meaning with both single ('...') and double ("...") quotes. The only difference between the two is that within single quotes you don’t need to escape " (but you have to escape \') and vice versa.
